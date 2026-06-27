@@ -60,27 +60,29 @@ section{padding:110px 8vw;border-bottom:1px solid rgba(43,33,24,0.08);}
 .media-full img{display:block;width:100%;border:none;}
 .media-caption{font-size:0.85em;color:var(--mute);margin-top:12px;text-align:right;font-style:italic;}
 
-/* 统一封装的 viz 外框，按 data-h 控制高度（关键：改为block布局，避免flex影响） */
+/* 统一封装的 viz 外框，按 data-h 控制高度（关键：移除margin，确保宽度100%） */
 .viz-frame {
   width: 100%;
   height: auto;
-  margin: 0 auto;
-  display: block; /* 移除flex，防止居中导致尺寸压缩 */
+  display: block; /* 确保块级元素，避免flex影响 */
 }
 
-/* Tableau 占位容器：强制撑满（用!important覆盖Tableau默认样式） */
+/* Tableau 占位容器：强制撑满（用!important覆盖所有默认样式） */
 .tableauPlaceholder {
   width: 100% !important; 
   height: 100% !important; 
   background: transparent !important;
+  margin: 0; /* 移除边距，避免压缩 */
 }
 .tableauPlaceholder object, .tableauPlaceholder iframe {
   width: 100% !important;
   height: 100% !important;
   min-width: 0 !important; /* 防止Tableau默认最小宽度限制 */
   min-height: 0 !important;
-  border: none !important; /* 移除边框，避免占位 */
+  border: none !important; /* 移除边框 */
+  display: block; /* 确保块级元素，避免行内元素压缩 */
 }
+
 /* 图文交错块 */
 .block{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin:60px 0;}
 .block.reverse{direction:rtl;}
@@ -460,23 +462,24 @@ document.addEventListener('DOMContentLoaded', function () {
       placeholder.style.width = '100%';
     }
 
-    // 延迟3秒（比之前长0.5秒，确保Tableau脚本完全加载）
+    // 延迟3秒（确保Tableau完全加载）
     setTimeout(() => {
       const iframe = frame.querySelector('iframe');
       if (iframe) {
-        iframe.style.width = '100%';
-        iframe.style.height = h + 'px';
-        iframe.style.border = 'none'; // 移除边框
+        iframe.style.width = '100% !important'; // 用!important覆盖
+        iframe.style.height = h + 'px !important';
+        iframe.style.border = 'none !important';
       }
       const obj = frame.querySelector('object');
       if (obj) {
-        obj.style.width = '100%';
-        obj.style.height = h + 'px';
-        obj.style.border = 'none';
+        obj.style.width = '100% !important'; // 用!important覆盖
+        obj.style.height = h + 'px !important';
+        obj.style.border = 'none !important';
       }
     }, 3000); // 延迟3秒
   });
 });
+
 
 
 </script>
