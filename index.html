@@ -165,8 +165,12 @@ footer{
 .path-decoration svg{width:100%;height:100%;}
 .path-decoration path{fill:none;stroke:var(--accent-2);stroke-width:3;stroke-dasharray:10,5;opacity:0.4;}
 
-/* 滚动出现 */
-.section-title, .section-index{opacity:0;transform:translateY(20px);transition:opacity 1.8s ease, transform 1.8s ease;}
+/* 滚动出现（关键修改：初始状态设为可见，避免加载时隐藏） */
+.section-title, .section-index{
+  opacity: 1; /* 初始显示，避免加载时隐藏 */
+  transform: translateY(0); /* 初始位置 */
+  transition: opacity 1.8s ease, transform 1.8s ease; /* 保留动画效果 */
+}
 .reveal-text{
   opacity:0;transform:translateY(40px);filter:blur(5px);
   transition:all 3.2s cubic-bezier(0.2,0.8,0.2,1);
@@ -459,9 +463,27 @@ footer{
   <div>作品仅限学术非商用展示，禁止私自转载商用</div>
 </footer>
 
+<!-- ============ 统一脚本：滚动出现 + Tableau 统一尺寸控制 ============ -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // 1. 章节标题滚动出现
+  const titleObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = 1;
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.section-title, .section-index').forEach(t => titleObserver.observe(t));
 
+  // 2. reveal-text 铭文浮现
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.reveal-text').forEach(el => revealObserver.observe(el));
 
-  // 3. 统一加载所有Tableau viz，并按 data-h 设定高度（关键修改）
+  // 3. 统一加载所有Tableau viz，并按 data-h 设定高度
   document.querySelectorAll('.viz-frame').forEach(frame => {
     const h = parseInt(frame.getAttribute('data-h'), 10) || 480;
     
@@ -490,8 +512,6 @@ footer{
     }, 3000); // 延迟3秒
   });
 });
-
-
 
 </script>
 <script type="text/javascript" src="https://public.tableau.com/javascripts/api/viz_v1.js"></script>
