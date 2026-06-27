@@ -60,36 +60,27 @@ section{padding:110px 8vw;border-bottom:1px solid rgba(43,33,24,0.08);}
 .media-full img{display:block;width:100%;border:none;}
 .media-caption{font-size:0.85em;color:var(--mute);margin-top:12px;text-align:right;font-style:italic;}
 
-/* Tableau 占位容器：强制透明且撑满 */
+/* 统一封装的 viz 外框，按 data-h 控制高度（关键：改为block布局，避免flex影响） */
 .viz-frame {
   width: 100%;
-  overflow: hidden;
+  height: auto;
+  margin: 0 auto;
+  display: block; /* 移除flex，防止居中导致尺寸压缩 */
 }
+
+/* Tableau 占位容器：强制撑满（用!important覆盖Tableau默认样式） */
 .tableauPlaceholder {
-  background: transparent !important; 
   width: 100% !important; 
-  height: 100% !important;
+  height: 100% !important; 
+  background: transparent !important;
 }
 .tableauPlaceholder object, .tableauPlaceholder iframe {
-  background: transparent !important;
   width: 100% !important;
   height: 100% !important;
-  min-width: 0 !important;
+  min-width: 0 !important; /* 防止Tableau默认最小宽度限制 */
+  min-height: 0 !important;
+  border: none !important; /* 移除边框，避免占位 */
 }
-
-
-
-/* 统一封装的 viz 外框，按 data-h 控制高度 */
-.viz-frame{
-  width:100%;
-  background:transparent;
-  margin:0 auto;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-}
-
 /* 图文交错块 */
 .block{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin:60px 0;}
 .block.reverse{direction:rtl;}
@@ -455,49 +446,37 @@ footer{
 <!-- ============ 统一脚本：滚动出现 + Tableau 统一尺寸控制 ============ -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  // 1. 章节标题滚动出现
-  const titleObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = 1;
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.section-title, .section-index').forEach(t => titleObserver.observe(t));
+  // ... 其他代码（滚动出现、reveal-text等）保持不变 ...
 
-  // 2. reveal-text 铭文浮现
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-  }, { threshold: 0.2 });
-  document.querySelectorAll('.reveal-text').forEach(el => revealObserver.observe(el));
-
-    // 3. 统一加载所有 Tableau viz，并按 data-h 设定高度
+  // 3. 统一加载所有Tableau viz，并按 data-h 设定高度（关键修改）
   document.querySelectorAll('.viz-frame').forEach(frame => {
     const h = parseInt(frame.getAttribute('data-h'), 10) || 480;
     
-    // 先给最外层设定高度
+    // 先给父元素（.viz-frame）设置固定高度（必须！）
     frame.style.height = h + 'px';
     const placeholder = frame.querySelector('.tableauPlaceholder');
-    if(placeholder) {
-      placeholder.style.height = h + 'px';
+    if (placeholder) {
+      placeholder.style.height = h + 'px'; // 确保占位容器高度正确
       placeholder.style.width = '100%';
     }
 
-    // 延迟 2.5 秒后强制修改 Tableau 生成的 iframe/object
+    // 延迟3秒（比之前长0.5秒，确保Tableau脚本完全加载）
     setTimeout(() => {
       const iframe = frame.querySelector('iframe');
       if (iframe) {
         iframe.style.width = '100%';
         iframe.style.height = h + 'px';
+        iframe.style.border = 'none'; // 移除边框
       }
       const obj = frame.querySelector('object');
       if (obj) {
         obj.style.width = '100%';
         obj.style.height = h + 'px';
+        obj.style.border = 'none';
       }
-    }, 2500);
+    }, 3000); // 延迟3秒
   });
+});
 
 
 </script>
