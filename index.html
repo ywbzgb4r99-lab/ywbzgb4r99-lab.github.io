@@ -61,12 +61,22 @@ section{padding:110px 8vw;border-bottom:1px solid rgba(43,33,24,0.08);}
 .media-caption{font-size:0.85em;color:var(--mute);margin-top:12px;text-align:right;font-style:italic;}
 
 /* Tableau 占位容器：强制透明且撑满 */
-.tableauPlaceholder{background:transparent !important;}
-.tableauPlaceholder object, .tableauPlaceholder iframe{
-  background:transparent !important;
-  width: 100% !important;
+.viz-frame {
+  width: 100%;
+  overflow: hidden;
+}
+.tableauPlaceholder {
+  background: transparent !important; 
+  width: 100% !important; 
   height: 100% !important;
 }
+.tableauPlaceholder object, .tableauPlaceholder iframe {
+  background: transparent !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+}
+
 
 
 /* 统一封装的 viz 外框，按 data-h 控制高度 */
@@ -462,21 +472,33 @@ document.addEventListener('DOMContentLoaded', function () {
   }, { threshold: 0.2 });
   document.querySelectorAll('.reveal-text').forEach(el => revealObserver.observe(el));
 
-   // 3. 统一加载所有 Tableau viz，并按 data-h 设定高度
+    // 3. 统一加载所有 Tableau viz，并按 data-h 设定高度
   document.querySelectorAll('.viz-frame').forEach(frame => {
     const h = parseInt(frame.getAttribute('data-h'), 10) || 480;
+    
+    // 先给最外层设定高度
+    frame.style.height = h + 'px';
     const placeholder = frame.querySelector('.tableauPlaceholder');
-    const vizObj = placeholder.querySelector('object');
-    
-    // 强制设定尺寸，防止被 Tableau 默认值覆盖
-    placeholder.style.setProperty('width', '100%', 'important');
-    placeholder.style.setProperty('height', h + 'px', 'important');
-    
-    vizObj.style.setProperty('width', '100%', 'important');
-    vizObj.style.setProperty('height', h + 'px', 'important');
-    vizObj.setAttribute('width', '100%');
-    vizObj.setAttribute('height', h);
+    if(placeholder) {
+      placeholder.style.height = h + 'px';
+      placeholder.style.width = '100%';
+    }
+
+    // 延迟 2.5 秒后强制修改 Tableau 生成的 iframe/object
+    setTimeout(() => {
+      const iframe = frame.querySelector('iframe');
+      if (iframe) {
+        iframe.style.width = '100%';
+        iframe.style.height = h + 'px';
+      }
+      const obj = frame.querySelector('object');
+      if (obj) {
+        obj.style.width = '100%';
+        obj.style.height = h + 'px';
+      }
+    }, 2500);
   });
+
 
 </script>
 <script type="text/javascript" src="https://public.tableau.com/javascripts/api/viz_v1.js"></script>
