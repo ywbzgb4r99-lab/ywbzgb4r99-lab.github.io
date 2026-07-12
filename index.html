@@ -41,8 +41,7 @@ body{
 .hero h1 em{font-style:normal;color:var(--accent);} 
 .hero .sub{font-size:1.3em;color:var(--mute);max-width:680px;margin-bottom:40px;opacity:0;animation:fadeInUp 1s ease 0.7s forwards;} 
 .hero .meta{font-size:0.9em;color:var(--mute);letter-spacing:0.1em;opacity:0;animation:fadeInUp 1s ease 0.9s forwards;} 
-.hero .scroll-hint{position:absolute;bottom:40px;left:8vw;font-size:0.8em;color:var(--mute);letter-spacing:0.3em;opacity:0;animation:fadeInUp 1s ease 1.1s forwards;} 
-.hero .scroll-hint::after{content:"";display:block;width:1px;height:40px;background:var(--mute);margin-top:14px;animation:drop 2s infinite;} 
+
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}50.1%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}} 
 @keyframes fadeInUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}} 
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}} 
@@ -289,8 +288,7 @@ footer{
     <div class="kicker">数据专题 · 唐宋女性墓志铭</div> 
     <h1>被切割的<em>「她」</em></h1> 
     <p class="sub">在古代墓志铭里，她们很少作为一个独立的"人"被书写。<br>一生被切割为女儿、妻子、母亲——我们试图拼回那些被规训的碎片，并寻找剥离身份后的微光。</p> 
-    <div class="meta">数据来源：中华石刻数据库　|　样本量 N=92</div> 
-    <div class="scroll-hint">SCROLL</div> 
+    <div class="meta">数据来源：中华石刻数据库　|　样本量 N=92</div>  
   </div> 
 </header> 
 
@@ -346,6 +344,7 @@ footer{
         <img src="./%E5%A3%81%E7%94%BB.jpg" alt="壁画"> 
       </div> 
     </div> 
+    <p class="media-caption">图 1 ｜ 壁画（来源：**）</p>
 
     <!-- 表2：全宽辅图 --> 
     <div class="media-full"> 
@@ -468,7 +467,7 @@ footer{
     <div class="media-full"> 
       <img src="./%E4%BB%95%E5%A5%B3%E5%9B%BE2.jpg" alt="唐代仕女图"> 
     </div> 
-    <p class="media-caption">图 3 ｜ 唐代仕女图（现代水墨风格）</p> 
+    <p class="media-caption">图 2 ｜ 唐代仕女图（现代水墨风格）</p> 
   </div> 
 </section> 
 
@@ -516,10 +515,12 @@ footer{
         <img src="./%E7%AF%8728%20%E5%9B%BE-1.png" alt="大长公主"> 
       </div> 
     </div> 
+    <p class="media-caption">图 3 ｜ 大长公主墓志（来源：中华石刻数据库）</p>
 
     <!-- 表6：全宽主图 --> 
     <div class="media-full"> 
       <div class="viz-frame" data-h="500"> 
+          
         <div class='tableauPlaceholder' id='viz1782546588864' style='position:relative'> 
           <noscript><a href='#'><img alt='大长公主' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;1_&#47;1_17824065514120&#47;sheet12&#47;1_rss.png' style='border:none'/></a></noscript> 
           <object class='tableauViz' style='display:block;'> 
@@ -540,6 +541,7 @@ footer{
             <param name='transparent' value='true'/> 
           </object> 
         </div> 
+          
       </div> 
     </div> 
     <p class="media-caption">表 6 ｜ 大长公主赞美词类</p> 
@@ -552,7 +554,7 @@ footer{
   <h2 class="section-title">光芒无法被完全掩盖</h2> 
   <p class="section-lead">数据揭示了严密的宗法书写体系，但也让我们看到——即使在压抑的评价框架中，依然存在赞美女性独立人格的词汇。她们被切割，却未被切除。</p> 
   <p>每一次"神机外举"的留笔，每一处"清爽内融"的描摹，都是规训秩序中泄露的微光。它们提醒我们：在被书写的"她"之外，始终存在一个未被完全书写的"她"。</p> 
-  <p>而这 100 份墓志铭，只是冰山一角。更多的"她"，依然沉睡在尚未被发现的石碑之下。</p> 
+  <p>而这92份墓志铭，只是冰山一角。更多的"她"，依然沉睡在尚未被发现的石碑之下。</p> 
 </section> 
 
 <footer> 
