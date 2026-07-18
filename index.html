@@ -47,6 +47,7 @@ body{
 .hero h1 em{font-style:normal;color:var(--accent);} 
 .hero .sub{font-size:1.3em;color:var(--mute);max-width:680px;margin-bottom:40px;opacity:0;animation:fadeInUp 1s ease 0.7s forwards;} 
 .hero .meta{font-size:0.9em;color:var(--mute);letter-spacing:0.1em;opacity:0;animation:fadeInUp 1s ease 0.9s forwards;} 
+.hero .attention{opacity:0;animation:fadeInUp 1s ease 0.3s forwards;}
 
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}50.1%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}} 
 @keyframes fadeInUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}} 
@@ -94,9 +95,9 @@ section.visible .section-index, section.visible .section-title, section.visible 
 
 .media-full.visible{opacity:1;transform:translateY(0);} 
 .media-full img{display:block;width:100%;border:none;} 
-.media-caption1{font-size:0.85em;color:var(--mute);margin-top:16px;text-align:right;font-style:italic;} 
+.media-caption1{font-size:0.85em;color:var(--mute);margin-top:16px;text-align:left;font-style:italic;} 
 .media-caption2{font-size:0.85em;color:var(--mute);margin-top:16px;text-align:right;font-style:italic;} 
-.media-caption3{font-size:0.85em;color:var(--mute);margin-top:16px;text-align:right;font-style:italic;} 
+
 
 /* 统一封装的 viz 外框，优化尺寸控制 */ 
 .viz-frame { 
@@ -116,19 +117,7 @@ section.visible .section-index, section.visible .section-title, section.visible 
   box-shadow: 0 8px 30px rgba(43,33,24,0.12); 
 } 
 
-/* 图表悬停提示 */ 
-.chart-tooltip{ 
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%); 
-  background:rgba(43,33,24,0.85);color:var(--paper);padding:16px 28px; 
-  border-radius:6px;font-size:0.9em;letter-spacing:0.1em; 
-  opacity:0;pointer-events:none;transition:opacity 0.3s ease; 
-  z-index:20;white-space:nowrap; 
-} 
-.viz-frame:hover .chart-tooltip{opacity:1;} 
-.chart-tooltip::after{ 
-  content:"";position:absolute;bottom:-8px;left:50%;transform:translateX(-50%); 
-  border:8px solid transparent;border-top-color:rgba(43,33,24,0.85); 
-}
+
 
 /* 图表放大弹窗 */ 
 .chart-lightbox{ 
@@ -197,13 +186,7 @@ section.visible .section-index, section.visible .section-title, section.visible 
   position:relative; 
 } 
 .block .media img{width:100%;height:100%;min-height:400px;border:none;object-fit:cover;} 
-.media-overlay{ 
-  position:absolute;inset:0;background:rgba(43,33,24,0.6); 
-  display:flex;align-items:center;justify-content:center; 
-  opacity:0;transition:opacity 0.3s ease; 
-} 
-.media-overlay span{color:var(--paper);font-size:1.1em;letter-spacing:0.2em;border:2px solid var(--paper);padding:12px 24px;border-radius:4px;} 
-.block .media:hover .media-overlay{opacity:1;} 
+
 
 .ratio-1-2 {display:grid;grid-template-columns:1fr 2fr;gap:50px;align-items:center;margin:80px 0;} 
 
@@ -231,13 +214,7 @@ section.visible .section-index, section.visible .section-title, section.visible 
   position:relative; 
 } 
 .block3 .media img{width:100%;height:100%;min-height:400px;border:none;object-fit:cover;} 
-.block3 .media-overlay{ 
-  position:absolute;inset:0;background:rgba(43,33,24,0.6); 
-  display:flex;align-items:center;justify-content:center; 
-  opacity:0;transition:opacity 0.3s ease; 
-} 
-.block3 .media-overlay span{color:var(--paper);font-size:1.1em;letter-spacing:0.2em;border:2px solid var(--paper);padding:12px 24px;border-radius:4px;} 
-.block3 .media:hover .media-overlay{opacity:1;} 
+
 
 /* 引用块 */ 
 .pull-quote{ 
@@ -282,11 +259,11 @@ section.visible .section-index, section.visible .section-title, section.visible 
 .stat-card .label{font-size:0.95em;color:var(--mute);margin-top:8px;} 
 .stat-card.anim-start .num{opacity:0;transform:scale(0.3);} 
 .stat-card.anim-start .label{opacity:0;transform:translateX(-30px);} 
-.stat-card .num.pop{opacity:1;transform:scale(1);animation:numPop 0.8s cubic-bezier(0.68,-0.55,0.265,1.55) forwards;} 
-.stat-card .num.blink{animation:blink 0.4s ease-in-out 3;} 
-.stat-card .label.slide{animation:labelSlide 0.6s ease-out forwards;} 
+.stat-card .num.pop{opacity:1;transform:scale(1);animation:numPop 0.6s cubic-bezier(0.68,-0.55,0.265,1.55) forwards;} 
+ 
+.stat-card .label.slide{animation:labelSlide 0.4s ease-out forwards;} 
 @keyframes numPop{from{opacity:0;transform:scale(0.3);}to{opacity:1;transform:scale(1);}} 
-@keyframes blink{0%,100%{color:var(--accent);}50%{color:var(--accent-2);}} 
+
 @keyframes labelSlide{from{opacity:0;transform:translateX(-30px);clip-path:inset(0 100% 0 0);}to{opacity:1;transform:translateX(0);clip-path:inset(0 0 0 0);}} 
 
 /* 拼图浮出效果 */ 
@@ -469,7 +446,9 @@ footer{
     <p class="sub">在古代墓志铭里，她们很少作为一个独立的"人"被书写。<br>一生被切割为女儿、妻子、母亲——我们试图拼回那些被规训的碎片，并寻找剥离身份后的微光。</p> 
     <div class="meta">数据来源：中华石刻数据库　|　样本量 N=92</div>
     <br>
-    <p style="font-weight:bold;color:firebrick">*温馨提示：本页面部署于海外服务器，受网络环境影响，加载速度偏慢，首次打开可能存在图表无法马上全部显示的情况，<br>请耐心等待片刻；如果您想要更快看到页面内容，可采用科学上网的方式来打开网页</p>
+    <div class="attention">
+    <p style="font-weight:bold;color:firebrick">*温馨提示：本页面部署于海外服务器，受网络环境影响，加载速度偏慢，首次打开可能存在图表无法马上全部显示的情况，请耐心等待片刻</p>
+    </div>
   </div> 
 </header> 
 
@@ -485,13 +464,13 @@ footer{
   <div class="content"> 
     <div class="section-index">CHAPTER 01 — 葬地</div> 
     <h2 class="section-title">女性的下葬地点，往往依附于丈夫家族的墓地分布</h2> 
-    <p class="section-lead reveal-clip">洛阳是墓志铭最密集的区域，折射出当时的政治与文化中心。女性的下葬地点，往往依附于家族的墓地分布，映射出宗法观念对女性身后空间的深刻规训。</p>
+    <p class="section-lead">洛阳是墓志铭最密集的区域，折射出当时的政治与文化中心。女性的下葬地点，往往依附于家族的墓地分布，映射出宗法观念对女性身后空间的深刻规训。</p>
     <p class="section-lead fly-in-left">根据墓志所反映的信息，女性的死亡地点与下葬地点并不完全一致。但她们的下葬地点都与丈夫紧密相关，或合葬，或近于夫家。</p>
 
     <!-- 表1：全宽主图 --> 
     <div class="media-full"> 
       <div class="viz-frame" data-h="600" onclick="openLightbox(this)"> 
-        <div class="chart-tooltip">点击放大查看</div> 
+         
         <div class='tableauPlaceholder' id='viz1783951335291' style='position: relative'><noscript><a href='#'><img alt='死亡地点与下葬地点 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;M3&#47;M32Y7YFQG&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='path' value='shared&#47;M32Y7YFQG' /> <param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;M3&#47;M32Y7YFQG&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='zh-CN' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1783951335291');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.minWidth='1120px';vizElement.style.maxWidth='1250px';vizElement.style.width='100%';vizElement.style.minHeight='587px';vizElement.style.maxHeight='887px';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.minWidth='1120px';vizElement.style.maxWidth='1250px';vizElement.style.width='100%';vizElement.style.minHeight='587px';vizElement.style.maxHeight='887px';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='777px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
       </div> 
     </div> 
@@ -506,7 +485,7 @@ footer{
       </div> 
       <div class="media"> 
         <img src="./%E5%A3%81%E7%94%BB.jpg" alt="壁画" class="fade-in-img"> 
-        <div class="media-overlay"><span>点击查看</span></div> 
+        
       </div> 
     </div> 
     <p class="media-caption2">图 1 ｜ 《宫女图》 唐（618-907）1960年陕西省乾县永泰公主墓前室东壁南侧揭取</p>
@@ -514,7 +493,7 @@ footer{
     <!-- 表2：全宽辅图 --> 
     <div class="media-full"> 
       <div class="viz-frame" data-h="680" onclick="openLightbox(this)"> 
-        <div class="chart-tooltip">点击放大查看</div> 
+        
         <div class='tableauPlaceholder' id='viz1783951619557' style='position: relative'><noscript><a href='#'><img alt='死亡地点和下葬地点集中程度 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;NM&#47;NMFN8JR9C&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='path' value='shared&#47;NMFN8JR9C' /> <param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;NM&#47;NMFN8JR9C&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='zh-CN' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1783951619557');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.minWidth='1020px';vizElement.style.maxWidth='1350px';vizElement.style.width='100%';vizElement.style.minHeight='587px';vizElement.style.maxHeight='787px';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
       </div> 
     </div> 
@@ -537,7 +516,7 @@ footer{
     <!-- 表3：全宽主图 --> 
     <div class="media-full"> 
       <div class="viz-frame" data-h="650" onclick="openLightbox(this)"> 
-        <div class="chart-tooltip">点击放大查看</div> 
+         
         <div class='tableauPlaceholder' id='viz1783950630921' style='position: relative'><noscript><a href='#'><img alt='撰写者身份及百分比 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;1_&#47;1_17838708605480&#47;sheet8&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='1_17838708605480&#47;sheet8' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;1_&#47;1_17838708605480&#47;sheet8&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='zh-CN' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1783950630921');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.minWidth='1020px';vizElement.style.maxWidth='1220px';vizElement.style.width='100%';vizElement.style.minHeight='487px';vizElement.style.maxHeight='687px';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.minWidth='1020px';vizElement.style.maxWidth='1220px';vizElement.style.width='100%';vizElement.style.minHeight='487px';vizElement.style.maxHeight='687px';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
       </div> 
     </div> 
@@ -568,7 +547,7 @@ footer{
       <!-- 表4：半宽配图 --> 
       <div class="media"> 
         <div class="viz-frame" data-h="580" style="width:100%;" onclick="openLightbox(this)"> 
-          <div class="chart-tooltip">点击放大查看</div> 
+          
           <div class='tableauPlaceholder' id='viz1782546418444' style='position:relative'> 
             <noscript><a href='#'><img alt='人生经历' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;1_&#47;1_17824065514120&#47;sheet9_1&#47;1_rss.png' style='border:none'/></a></noscript> 
             <object class='tableauViz' style='display:block;'> 
@@ -617,7 +596,7 @@ footer{
     <!-- 表5：全宽主图 --> 
     <div class="media-full"> 
       <div class="viz-frame" data-h="560" onclick="openLightbox(this)"> 
-        <div class="chart-tooltip">点击放大查看</div> 
+         
         <div class='tableauPlaceholder' id='viz1783951844960' style='position: relative'><noscript><a href='#'><img alt='宋代女性描述词占比 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;1_&#47;1_17838708605480&#47;sheet10&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='1_17838708605480&#47;sheet10' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;1_&#47;1_17838708605480&#47;sheet10&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='zh-CN' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1783951844960');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
       </div> 
     </div> 
@@ -631,7 +610,7 @@ footer{
       </div> 
       <div class="media"> 
         <img src="./%E7%AF%8728%20%E5%9B%BE-1.png" alt="大长公主" class="fade-in-img"> 
-        <div class="media-overlay"><span>点击查看</span></div> 
+         
       </div> 
     </div> 
     <p class="media-caption2">图 3 ｜ 大长公主墓志（来源：中华石刻数据库）</p>
@@ -641,17 +620,19 @@ footer{
     <div class="block3 reverse">
     
     <div class=text>
+      
       <p class="char-reveal" id="highlightParagraph">然而，在一堆妇德的赞美词中，也出现了"议论卓卓如奇男子"这样的评价。即便评价仍以男子作为衡量标准，却真切展现出这位公主不局限于闺中琐事、拥有独到见解的模样，是女性挣脱世俗固有偏见、展露自身才识的真实写照。</p> 
+      
     </div>
     <div class="media"> 
       <div class="viz-frame" data-h="900" style="width:100%;" onclick="openLightbox(this)"> 
-        <div class="chart-tooltip">点击放大查看</div> 
+         
         <div class='tableauPlaceholder' id='viz1783999834527' style='position: relative'><noscript><a href='#'><img alt='仪表板 5 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;4_&#47;4_17839993147790&#47;5&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='4_17839993147790&#47;5' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;4_&#47;4_17839993147790&#47;5&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='zh-CN' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1783999834527');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.minWidth='720px';vizElement.style.maxWidth='850px';vizElement.style.width='100%';vizElement.style.minHeight='887px';vizElement.style.maxHeight='987px';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.minWidth='720px';vizElement.style.maxWidth='850px';vizElement.style.width='100%';vizElement.style.minHeight='887px';vizElement.style.maxHeight='987px';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
       </div>    
     </div>  
     
     </div>
-    <p class="media-caption3">表 6 ｜ 大长公主赞美词类</p> 
+    <p class="media-caption1">表 6 ｜ 大长公主赞美词类</p> 
     
   </div> 
 </section> 
@@ -706,31 +687,26 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.media-full, .pull-quote').forEach(el => mediaObserver.observe(el)); 
 
   // stat-card顺序动画：数字弹出→闪烁5次→标签滑入 
-  const statGridObserver = new IntersectionObserver((entries) => { 
-    entries.forEach(entry => { 
-      if (entry.isIntersecting) { 
-        const cards = entry.target.querySelectorAll('.stat-card'); 
-        cards.forEach(card => card.classList.add('anim-start')); 
-        let delay = 300; 
-        cards.forEach((card, index) => { 
-          setTimeout(() => { 
-            const num = card.querySelector('.num'); 
-            const label = card.querySelector('.label'); 
-            num.classList.add('pop'); 
-            setTimeout(() => { 
-              num.classList.add('blink'); 
-              setTimeout(() => { 
-                label.classList.add('slide'); 
-              }, 1200); 
-            }, 800); 
-          }, delay); 
-          delay += 2000; 
-        }); 
-        statGridObserver.disconnect(); 
-      } 
-    }); 
-  }, { threshold: 0.1 }); 
-  document.querySelectorAll('.stat-grid').forEach(el => statGridObserver.observe(el)); 
+  const statGridObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const cards = entry.target.querySelectorAll('.stat-card');
+      cards.forEach(card => card.classList.add('anim-start'));
+      let delay = 300; 
+      cards.forEach((card, index) => { 
+        setTimeout(() => { 
+          const num = card.querySelector('.num'); 
+          const label = card.querySelector('.label'); 
+          num.classList.add('pop'); 
+          label.classList.add('slide'); 
+        }, delay); 
+        delay += 1000; // 你说卡片间隔正常，可保留这行不改
+      }); 
+      statGridObserver.disconnect(); 
+    } 
+  }); 
+}, { threshold: 0.1 }); 
+document.querySelectorAll('.stat-grid').forEach(el => statGridObserver.observe(el));
 
   // 拼图浮出效果 
   const initPuzzle = () => { 
