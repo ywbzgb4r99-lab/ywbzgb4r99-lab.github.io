@@ -504,8 +504,8 @@ body{ -webkit-tap-highlight-color:rgba(139,58,47,0.18); }
   .stat-card .num{ font-size:1.8em; }
   .stat-card .label{ font-size:0.82em; margin-top:4px; line-height:1.5; }
 
-  /* 拼图容器：高度随屏收窄，瀑布层保留 */
-  .puzzle-container{ height:min(64vw, 300px); }
+  /* 拼图容器：高度由 JS 按图片真实比例设定，CSS 仅给兜底 */
+  .puzzle-container{ height:auto; min-height:240px; }
 
   /* 图表放大弹窗：全屏化 + 触控友好关闭按钮 */
   .chart-lightbox{ padding:0; }
@@ -552,7 +552,7 @@ body{ -webkit-tap-highlight-color:rgba(139,58,47,0.18); }
   .outro p,
   .section-lead{ font-size:0.92em; }
   .pull-quote{ font-size:1em; padding:20px 14px; }
-  .puzzle-container{ height:56vw; }
+  .puzzle-container{ min-height:200px; }
 }
 
 /* ---------- 横屏短屏（手机横过来阅读） ---------- */
@@ -1123,8 +1123,8 @@ document.addEventListener('keydown', function(e){
 </script> 
 
 <!-- ==========================================================
-     移动端 Tableau 高度自适应追加脚本（新增，独立运行，不影响原脚本）
-     - 仅在窄屏生效，桌面端行为与原版完全一致
+     移动端 Tableau 高度自适应 + 拼图比例修复追加脚本
+     （新增，独立运行，不影响原脚本）
      ========================================================== -->
 <script>
 (function () {
@@ -1193,6 +1193,34 @@ document.addEventListener('keydown', function(e){
     });
   }
 
+  /* ---------- 拼图容器长宽比适配（修复仕女图拉伸变形） ---------- */
+  function fitPuzzle() {
+    var container = document.getElementById('puzzleImage');
+    if (!container) return;
+    var img = container.querySelector('img');
+    if (!img) return;
+
+    var apply = function () {
+      if (!img.naturalWidth || !img.naturalHeight) return;
+      // 容器高度 = 当前宽度 × 图片真实高宽比，彻底消除 cover 拉伸
+      var w = container.clientWidth;
+      if (!w) return;
+      container.style.height = Math.round(w * (img.naturalHeight / img.naturalWidth)) + 'px';
+      // 同步重算已有碎片的背景尺寸（碎片拼合背景需覆盖整个容器）
+      var rows = 8, cols = 8;
+      container.querySelectorAll('.puzzle-piece').forEach(function (p) {
+        p.style.backgroundSize = (cols * 100) + '% ' + (rows * 100) + '%';
+      });
+    };
+
+    if (img.complete) apply();
+    else {
+      img.addEventListener('load', apply);
+      img.addEventListener('error', function(){ /* 加载失败保持兜底高度 */ });
+    }
+    // 手机端图片是 display:none 也能读到 naturalWidth，无需改动显示逻辑
+  }
+
   function fitAll() {
     document.querySelectorAll('.viz-frame').forEach(fitTableauFrame);
     // 弹窗打开时，弹窗内的克隆 frame 同步适配
@@ -1203,6 +1231,7 @@ document.addEventListener('keydown', function(e){
         fitTableauFrame(f);
       });
     }
+    fitPuzzle();   // 拼图比例同步适配
   }
 
   // 首次加载：等 Tableau 脚本注入 DOM 后再跑（多时间点兜底）
